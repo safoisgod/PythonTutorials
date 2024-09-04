@@ -1,6 +1,6 @@
 import tkinter as tk
 from tkinter import messagebox
-#sympy has to be imported first
+#sympy has to be installed first first
 from sympy import sympify
 
 
