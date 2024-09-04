@@ -1,6 +1,5 @@
 import tkinter as tk
-from tkinter import messagebox
-#sympy has to be installed first first
+#sympy has to be imported first
 from sympy import sympify
 
 
@@ -13,39 +12,56 @@ class MyCalculator:
         self.window = tk.Tk()
 
         #set geometry
-        self.window.geometry("300x180")
+        self.window.geometry("420x350")
 
         # set title
         self.window.title("Calculator")
 
-        #
-        self.equation = tk.StringVar()
+        # Set font and colors
+        self.btn_font = ('Arial', 14)
+        self.font = ('Arial', 20)
+        self.bg_color = '#282c34'
+        self.fg_color = '#ffffff'
+        self.button_color = '#61afef'
+        self.button_fg_color = '#ffffff'
+        self.bg_entry_color = '#1e2127'
+        self.bg_answer_color = '#000000'
 
-        #
+
+        # set variables to hold results
+        self.equation = tk.StringVar()
         self.answer = tk.StringVar()
 
         #set the entry field for the calculation
-        self.entrybox = tk.Entry(self.window, textvariable=self.equation)
-        self.entrybox.pack(padx=10, fill="x")
-        self.answerbox = tk.Entry(self.window, textvariable=self.answer, state="readonly")
-        self.answerbox.pack(padx=10, fill="x")
+        self.entrybox = tk.Entry(self.window, textvariable=self.equation, font=self.font, bg = self.bg_entry_color, fg=self.fg_color, relief="raised")
+        self.entrybox.pack(padx=10,fill="both")
+
+        self.answerbox = tk.Entry(self.window, textvariable=self.answer, font=self.font, bg = self.bg_answer_color, fg=self.bg_entry_color, relief="sunken", state="readonly")
+        self.answerbox.pack(padx=10,fill="both")
 
 
 
         # let's begin by creating a frame
-        self.buttonframe = tk.Button(self.window)
+        self.buttonframe = tk.Button(self.window, bg=self.bg_color)
+        
+        # Configure the grid layout of the frame
+
         # configure the number of columns
-        self.buttonframe.columnconfigure(0, weight=1)
-        self.buttonframe.columnconfigure(1, weight=1)
-        self.buttonframe.columnconfigure(2, weight=1)
-        self.buttonframe.columnconfigure(3, weight=1)
+        for i in range(4):
+            self.buttonframe.columnconfigure(i, weight=1)
+        # configure the number of row
+        for i in range(5):
+            self.buttonframe.rowconfigure(i, weight=1)
 
         # create a function that will add the buttons
         self.create_buttons()
 
-        self.buttonframe.pack(fill="both")
+        self.buttonframe.pack(fill="both", padx=10, pady=10)
 
+        # Start the main loop
         self.window.mainloop()
+
+
 
     def press(self, num):
         global expression
@@ -63,7 +79,7 @@ class MyCalculator:
             
             self.result = f"{float(self.result):.2f}"
         except Exception as e:
-            self.result = f"Error: {e}"
+            self.result = "Error"
         self.answer.set(self.result)
         
     def backspace(self):
@@ -92,15 +108,15 @@ class MyCalculator:
 
         for (text, col, row) in buttons:
             if text == "C":
-                btn = tk.Button(self.buttonframe, text=text,command = self.clear)
+                btn = tk.Button(self.buttonframe, text=text,command = self.clear, font=self.btn_font, bg=self.button_color, fg=self.button_fg_color, relief='raised')
             elif text == "<<":
-                btn = tk.Button(self.buttonframe, text=text,command = self.backspace)
+                btn = tk.Button(self.buttonframe, text=text,command = self.backspace, font=self.btn_font, bg=self.button_color, fg=self.button_fg_color, relief='raised')
             elif text ==  "=":
-                btn = tk.Button(self.buttonframe, text=text,command = self.calculate)
+                btn = tk.Button(self.buttonframe, text=text,command = self.calculate, font=self.btn_font, bg=self.button_color, fg=self.button_fg_color, relief='raised')
                 
             else:
-                btn = tk.Button(self.buttonframe, text=text,command = lambda t=text: self.press(t))
-            btn.grid(column=col, row=row, sticky=tk.W + tk.E)
+                btn = tk.Button(self.buttonframe, text=text,command = lambda t=text: self.press(t), font=self.btn_font, bg=self.button_color, fg=self.button_fg_color, relief='raised')
+            btn.grid(column=col, row=row, sticky=tk.W + tk.E +tk.N +tk.S, padx=5, pady=5)
 
 
 
