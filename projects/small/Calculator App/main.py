@@ -14,6 +14,12 @@ class MyCalculator:
         #set geometry
         self.window.geometry("420x350")
 
+        # prevent size change
+        self.window.resizable(height=False, width=False)
+
+        # set background color
+        #self.window.configure(background="#000000" )
+
         # set title
         self.window.title("Calculator")
 
